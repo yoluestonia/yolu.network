@@ -1,1501 +1,1306 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-
-  <title>Yolu – Multiplatform Content Monetization</title>
-
-  <meta name="description" content="Yolu helps media companies and right holders earn more from existing content via YouTube, AVOD and FAST." />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <meta property="og:url" content="https://yolu.network" />
-  <meta property="og:title" content="Yolu – Multiplatform Content Monetization" />
-  <meta property="og:description" content="Yolu helps media companies and right holders launch and grow channels, distribute catalogs and earn more from existing content." />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://static.tildacdn.one/tild3232-3533-4733-b331-363232666239/Frame_51.png" />
-
-  <link rel="shortcut icon" href="https://static.tildacdn.one/tild3235-3438-4862-b331-623936303166/Frame_51.png" type="image/x-icon" />
-
-  <!-- Futura PT + системные шрифты -->
-  <link href="https://fonts.googleapis.com/css2?family=Futura+PT:wght@400;500;600&display=swap" rel="stylesheet">
-
-  <style>
-    :root {
-      --bg-dark: #050509;
-      --accent: #f5d46b;
-      --accent-strong: #f0a94c;
-      --text-main: #ffffff;
-      --text-muted: #a4a4b8;
-      --border-soft: rgba(255, 255, 255, 0.1);
-      --radius-xl: 20px;
-      --radius-xxl: 32px;
-      --shadow-soft: 0 20px 40px rgba(0, 0, 0, 0.6);
-      --transition-fast: 0.2s ease;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: "Futura PT", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: radial-gradient(circle at top, #151525 0, #050509 45%, #010106 100%);
-      color: var(--text-main);
-      line-height: 1.5;
-      overflow-x: hidden;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
-    .page {
-      width: 100%;
-      padding: 24px 40px 60px;
-    }
-
-    /* Контент прижат влево, а не узкая колонка по центру */
-    .container {
-      width: 100%;
-      max-width: 1280px;
-      margin-left: 0;
-      margin-right: auto;
-    }
-
-    /* NAV */
-
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      backdrop-filter: blur(20px);
-      background: linear-gradient(
-        to bottom,
-        rgba(5, 5, 12, 0.95),
-        rgba(5, 5, 12, 0.7),
-        transparent
-      );
-      margin: -24px 0 0;
-      padding: 12px 40px 6px;
-    }
-
-    .nav-inner {
-      max-width: 1280px;
-      margin-left: 0;
-      margin-right: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .logo-img {
-      height: 26px;
-      width: auto;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-      font-size: 14px;
-    }
-
-    .nav-links a {
-      color: var(--text-muted);
-      position: relative;
-      padding-bottom: 4px;
-    }
-
-    .nav-links a::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      height: 1.5px;
-      width: 0;
-      background: var(--accent);
-      transition: width var(--transition-fast);
-    }
-
-    .nav-links a:hover {
-      color: var(--text-main);
-    }
-
-    .nav-links a:hover::after {
-      width: 100%;
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .lang-switch {
-      font-size: 13px;
-      border-radius: 999px;
-      border: 1px solid var(--border-soft);
-      padding: 4px 10px;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      color: var(--text-muted);
-      background: rgba(0, 0, 0, 0.3);
-      cursor: default;
-    }
-
-    .lang-switch span {
-      font-weight: 600;
-      color: var(--text-main);
-    }
-
-    .btn-primary {
-      border-radius: 999px;
-      border: none;
-      background: linear-gradient(135deg, #ffe88a, #f0a94c, #f06a6a);
-      color: #000;
-      padding: 9px 18px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast),
-        opacity var(--transition-fast);
-      white-space: nowrap;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 18px 38px rgba(0, 0, 0, 0.7);
-      opacity: 0.95;
-    }
-
-    .btn-primary:active {
-      transform: translateY(0);
-      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.7);
-      opacity: 0.9;
-    }
-
-    /* Burger + mobile nav */
-
-    .menu-btn {
-      display: none;
-      flex-direction: column;
-      cursor: pointer;
-      gap: 4px;
-      padding: 4px;
-    }
-
-    .menu-btn span {
-      width: 22px;
-      height: 2px;
-      background: #fff;
-      transition: 0.3s;
-    }
-
-    .mobile-nav {
-      display: none;
-      position: absolute;
-      top: 52px;
-      left: 0;
-      width: 100%;
-      background: rgba(5, 5, 12, 0.96);
-      backdrop-filter: blur(16px);
-      flex-direction: column;
-      gap: 14px;
-      padding: 16px 24px 20px;
-      font-size: 14px;
-      border-bottom: 1px solid var(--border-soft);
-    }
-
-    .mobile-nav a {
-      color: var(--text-muted);
-    }
-
-    .mobile-nav a:hover {
-      color: var(--accent-strong);
-    }
-
-    .mobile-nav.active {
-      display: flex;
-    }
-
-    /* HERO */
-
-    .hero {
-      margin-top: 72px;
-      min-height: calc(100vh - 96px);
-      display: grid;
-      grid-template-columns: minmax(0, 3.2fr) minmax(0, 2.6fr);
-      gap: 40px;
-      align-items: center;
-    }
-
-    .hero-label {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--border-soft);
-      background: rgba(9, 9, 18, 0.75);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--text-muted);
-      margin-bottom: 16px;
-    }
-
-    .hero-label-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: #26ff92;
-      box-shadow: 0 0 10px rgba(38, 255, 146, 0.9);
-    }
-
-    .hero-title {
-      font-size: clamp(34px, 4.4vw, 44px);
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      margin-bottom: 12px;
-    }
-
-    .hero-subtitle {
-      font-size: 16px;
-      color: var(--text-muted);
-      max-width: 520px;
-      margin-bottom: 20px;
-    }
-
-    .hero-cta {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      flex-wrap: wrap;
-      margin-bottom: 26px;
-    }
-
-    .hero-cta-note {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .hero-cta-note span {
-      color: var(--accent);
-      font-weight: 500;
-    }
-
-    .hero-metrics {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 18px;
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-
-    .hero-metric {
-      min-width: 90px;
-    }
-
-    .hero-metric-value {
-      font-size: 22px;
-      font-weight: 700;
-      letter-spacing: -0.03em;
-    }
-
-    .hero-metric-label {
-      font-size: 12px;
-    }
-
-    .hero-visual {
-      position: relative;
-      border-radius: var(--radius-xxl);
-      border: 1px solid var(--border-soft);
-      background: radial-gradient(circle at top left, #1b1525, #050509);
-      padding: 18px;
-      box-shadow: var(--shadow-soft);
-      overflow: hidden;
-      min-height: 280px;
-    }
-
-    .hero-visual-main {
-      border-radius: 24px;
-      overflow: hidden;
-    }
-
-    .hero-visual-main img {
-      width: 100%;
-      height: auto;
-    }
-
-    .hero-visual-tag {
-      position: absolute;
-      top: 18px;
-      left: 22px;
-      padding: 5px 10px;
-      border-radius: 999px;
-      background: rgba(0, 0, 0, 0.55);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      font-size: 11px;
-      color: var(--accent);
-      backdrop-filter: blur(10px);
-    }
-
-    /* SECTION BASE */
-
-    .section {
-      margin-top: 56px;
-    }
-
-    .section-label {
-      font-size: 11px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-    }
-
-    .section-title {
-      font-size: 24px;
-      letter-spacing: -0.02em;
-      margin-bottom: 10px;
-    }
-
-    .section-text {
-      font-size: 14px;
-      color: var(--text-muted);
-      max-width: 480px;
-    }
-
-    /* STATS */
-
-    .stats-section {
-      display: grid;
-      grid-template-columns: minmax(0, 2.1fr) minmax(0, 2.4fr);
-      gap: 32px;
-      align-items: center;
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .stat-card {
-      border-radius: var(--radius-xl);
-      border: 1px solid var(--border-soft);
-      background: rgba(10, 10, 18, 0.88);
-      padding: 10px 12px;
-      font-size: 12px;
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast),
-        border-color var(--transition-fast), background var(--transition-fast);
-    }
-
-    .stat-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 16px 28px rgba(0, 0, 0, 0.6);
-      border-color: rgba(245, 212, 107, 0.5);
-      background: rgba(18, 18, 28, 0.96);
-    }
-
-    .stat-value {
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: -0.04em;
-      margin-bottom: 4px;
-    }
-
-    .stat-label {
-      color: var(--text-muted);
-      font-size: 11px;
-    }
-
-    /* SERVICES */
-
-    .services-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      gap: 16px;
-      margin-bottom: 22px;
-      flex-wrap: wrap;
-    }
-
-    .services-subtitle {
-      font-size: 13px;
-      color: var(--text-muted);
-      max-width: 440px;
-    }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.4fr) minmax(0, 1.2fr);
-      gap: 16px;
-    }
-
-    .service-card {
-      border-radius: var(--radius-xl);
-      border: 1px solid var(--border-soft);
-      background: rgba(10, 10, 18, 0.9);
-      padding: 14px 14px 16px;
-      font-size: 13px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast),
-        border-color var(--transition-fast), background var(--transition-fast);
-    }
-
-    .service-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 18px 32px rgba(0, 0, 0, 0.7);
-      border-color: rgba(245, 212, 107, 0.5);
-      background: rgba(18, 18, 28, 0.98);
-    }
-
-    .service-number {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: var(--text-muted);
-    }
-
-    .service-title {
-      font-size: 15px;
-      font-weight: 600;
-    }
-
-    .service-text {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .service-tag-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 6px;
-    }
-
-    .service-tag {
-      font-size: 11px;
-      padding: 3px 7px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.04);
-      color: var(--text-muted);
-    }
-
-    /* ECOSYSTEM */
-
-    .clients-section {
-      margin-top: 50px;
-      border-radius: var(--radius-xxl);
-      border: 1px solid var(--border-soft);
-      padding: 18px 18px 20px;
-      background: radial-gradient(circle at 0 0, rgba(244, 223, 148, 0.1), rgba(10, 10, 18, 0.96));
-      transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
-    }
-
-    .clients-section:hover {
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
-      border-color: rgba(245, 212, 107, 0.5);
-    }
-
-    .clients-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-      align-items: flex-start;
-      margin-bottom: 16px;
-    }
-
-    .clients-title {
-      font-size: 18px;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-    }
-
-    .clients-text {
-      font-size: 13px;
-      color: var(--text-muted);
-      max-width: 520px;
-    }
-
-    .platforms-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--text-muted);
-    }
-
-    .platform-pill {
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      background: rgba(0, 0, 0, 0.2);
-    }
-
-    /* PARTNERS */
-
-    .partners-section {
-      margin-top: 50px;
-    }
-
-    .partners-grid {
-      margin-top: 14px;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .partner-card {
-      border-radius: var(--radius-xl);
-      border: 1px solid var(--border-soft);
-      background: rgba(8, 8, 16, 0.96);
-      padding: 10px 14px;
-      font-size: 13px;
-      display: flex;
-      align-items: center;
-      min-height: 56px;
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast),
-        border-color var(--transition-fast), background var(--transition-fast);
-    }
-
-    .partner-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 16px 28px rgba(0, 0, 0, 0.6);
-      border-color: rgba(245, 212, 107, 0.5);
-      background: rgba(18, 18, 28, 0.98);
-    }
-
-    .partner-name {
-      font-weight: 500;
-    }
-
-    /* FAQ */
-
-    .faq-section {
-      margin-top: 56px;
-      display: grid;
-      grid-template-columns: minmax(0, 1.6fr) minmax(0, 2.1fr);
-      gap: 32px;
-      align-items: flex-start;
-    }
-
-    .faq-intro-text {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-top: 6px;
-    }
-
-    .faq-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .faq-item {
-      border-radius: var(--radius-xl);
-      border: 1px solid var(--border-soft);
-      background: rgba(8, 8, 16, 0.96);
-      padding: 10px 12px 0;
-      font-size: 13px;
-      overflow: hidden;
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast),
-        border-color var(--transition-fast), background var(--transition-fast);
-    }
-
-    .faq-item:hover {
-      transform: translateY(-2px);
-      border-color: rgba(245, 212, 107, 0.5);
-      background: rgba(18, 18, 28, 0.98);
-      box-shadow: 0 16px 28px rgba(0, 0, 0, 0.6);
-    }
-
-    .faq-q {
-      font-weight: 500;
-      padding: 10px 0;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .faq-q span {
-      font-size: 18px;
-      margin-left: 8px;
-      color: var(--text-muted);
-    }
-
-    .faq-a {
-      font-size: 12px;
-      color: var(--text-muted);
-      padding-bottom: 10px;
-      display: none;
-    }
-
-    .faq-item.open .faq-a {
-      display: block;
-    }
-
-    /* CONTACT / FORM */
-
-    .contact-section {
-      margin-top: 56px;
-      display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.6fr);
-      gap: 28px;
-      align-items: flex-start;
-    }
-
-    .contact-card {
-      border-radius: var(--radius-xxl);
-      border: 1px solid var(--border-soft);
-      background: rgba(8, 8, 16, 0.96);
-      padding: 18px 18px 20px;
-      box-shadow: var(--shadow-soft);
-    }
-
-    .contact-row {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-top: 6px;
-    }
-
-    .contact-row strong {
-      color: var(--text-main);
-      font-weight: 500;
-    }
-
-    .contact-note {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 12px;
-    }
-
-    /* Footer */
-
-    .footer {
-      margin-top: 50px;
-      border-top: 1px solid var(--border-soft);
-      padding-top: 16px;
-      font-size: 11px;
-      color: var(--text-muted);
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .social {
-      display: flex;
-      gap: 14px;
-      align-items: center;
-    }
-
-    .social a img {
-      width: 24px;
-      filter: grayscale(100%);
-      opacity: 0.8;
-      transition: all 0.3s;
-    }
-
-    .social a:hover img {
-      filter: none;
-      opacity: 1;
-      transform: scale(1.1);
-    }
-
-    .link-button {
-      background: none;
-      border: none;
-      padding: 0;
-      color: var(--text-muted);
-      text-decoration: underline;
-      cursor: pointer;
-      font: inherit;
-    }
-
-    .link-button:hover {
-      color: var(--accent);
-    }
-
-    /* POPUPS */
-
-    .popup {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.8);
-      z-index: 9999;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .popup-content {
-      background: #ffffff;
-      color: #222;
-      padding: 32px 26px 26px;
-      border-radius: 16px;
-      max-width: 520px;
-      width: 100%;
-      position: relative;
-      text-align: left;
-      max-height: 90vh;
-      overflow-y: auto;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-    }
-
-    .popup-content h3 {
-      margin-bottom: 6px;
-      font-size: 20px;
-    }
-
-    .popup-content p {
-      margin-bottom: 14px;
-      font-size: 14px;
-      color: #555;
-    }
-
-    .popup-close {
-      position: absolute;
-      top: 10px;
-      right: 16px;
-      font-size: 26px;
-      cursor: pointer;
-      color: #999;
-    }
-
-    .popup-close:hover {
-      color: #222;
-    }
-
-    .popup-form-input,
-    .popup-form-textarea {
-      width: 100%;
-      padding: 10px 12px;
-      margin: 8px 0 12px;
-      border-radius: 10px;
-      border: 1px solid #ddd;
-      font-size: 14px;
-      font-family: inherit;
-    }
-
-    .popup-form-textarea {
-      min-height: 80px;
-      resize: vertical;
-    }
-
-    .popup-form-button {
-      background: linear-gradient(135deg, #ffe88a, #f0a94c, #f06a6a);
-      color: #000;
-      padding: 10px 24px;
-      border-radius: 999px;
-      font-size: 14px;
-      font-weight: 600;
-      border: none;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .popup-form-button:hover {
-      filter: brightness(0.95);
-    }
-
-    /* Privacy popup wider */
-    .popup-privacy .popup-content {
-      max-width: 800px;
-    }
-
-    /* REVEAL / FADE-IN */
-
-    .fade-in {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* RESPONSIVE */
-
-    @media (max-width: 1100px) {
-      .hero {
-        grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.3fr);
-        gap: 28px;
-        min-height: auto;
-      }
-      .stats-section {
-        grid-template-columns: minmax(0, 1fr);
-      }
-      .stats-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-      .services-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-      .partners-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 768px) {
-      .nav {
-        padding-inline: 16px;
-      }
-      .page {
-        padding-inline: 16px;
-      }
-      .nav-inner {
-        row-gap: 8px;
-      }
-      .nav-links {
-        display: none;
-      }
-      .menu-btn {
-        display: flex;
-      }
-      .hero {
-        grid-template-columns: minmax(0, 1fr);
-        margin-top: 56px;
-        min-height: auto;
-      }
-      .hero-visual {
-        order: -1;
-      }
-      .stats-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-      .services-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-      .faq-section,
-      .contact-section {
-        grid-template-columns: minmax(0, 1fr);
-      }
-      .partners-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    @media (max-width: 480px) {
-      .hero-title {
-        font-size: 28px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <title>Yolu – Multiplatform Content Monetization</title>
+    <meta name="description" content="Yolu helps media companies and right holders earn more from existing content via YouTube, AVOD and FAST." />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:url" content="https://yolu.network" />
+    <meta property="og:title" content="Yolu – Multiplatform Content Monetization" />
+    <meta property="og:description" content="Yolu helps media companies and right holders launch and grow channels, distribute catalogs and earn more from existing content." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://static.tildacdn.one/tild3232-3533-4733-b331-363232666239/Frame_51.png" />
+    <link rel="shortcut icon" href="https://static.tildacdn.one/tild3235-3438-4862-b331-623936303166/Frame_51.png" type="image/x-icon" />
+    
+    <link href="https://fonts.googleapis.com/css2?family=Futura+PT:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Global Reset & Fonts --- */
+        body, html {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+            font-family: 'Futura PT', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+        
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+        
+        button {
+            cursor: pointer;
+            border: none;
+            background: none;
+            padding: 0;
+            font: inherit;
+            color: inherit;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .btn-primary {
+            background-color: #00c73e;
+            color: #000;
+            padding: 15px 30px;
+            font-weight: 500;
+            border-radius: 40px;
+            transition: background-color 0.2s;
+            white-space: nowrap;
+            font-size: 16px;
+        }
+        
+        .btn-primary:hover {
+            background-color: #00a030;
+        }
+        
+        .section {
+            padding: 100px 0;
+        }
+        
+        .section-label {
+            font-size: 14px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 12px;
+        }
+        
+        .section-title, .clients-title {
+            font-size: 40px;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        
+        .section-text, .clients-text {
+            font-size: 20px;
+            line-height: 1.4;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+        }
+        
+        /* --- Navigation --- */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 10px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-img {
+            height: 32px;
+        }
+        
+        .nav-links a {
+            margin-left: 30px;
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8);
+            transition: color 0.2s;
+        }
+        
+        .nav-links a:hover {
+            color: #fff;
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .lang-switch {
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 8px 10px;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .lang-switch:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        /* Mobile Nav */
+        .menu-btn {
+            width: 24px;
+            height: 18px;
+            position: relative;
+            transform: rotate(0deg);
+            transition: .5s ease-in-out;
+            cursor: pointer;
+            display: none; /* Desktop only */
+        }
+        
+        .menu-btn span {
+            display: block;
+            position: absolute;
+            height: 2px;
+            width: 100%;
+            background: #fff;
+            border-radius: 9px;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: .25s ease-in-out;
+        }
+        
+        .menu-btn span:nth-child(1) { top: 0px; }
+        .menu-btn span:nth-child(2) { top: 8px; }
+        .menu-btn span:nth-child(3) { top: 16px; }
+        
+        .menu-btn.open span:nth-child(1) { top: 8px; transform: rotate(135deg); }
+        .menu-btn.open span:nth-child(2) { opacity: 0; left: -60px; }
+        .menu-btn.open span:nth-child(3) { top: 8px; transform: rotate(-135deg); }
+        
+        .mobile-nav {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 52px; /* Height of the nav bar */
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            transform: translateY(-100%);
+            transition: transform 0.3s ease-out;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .mobile-nav.open {
+            display: flex;
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .mobile-nav a {
+            padding: 10px 0;
+            font-size: 20px;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .mobile-nav a:last-of-type {
+            border-bottom: none;
+        }
+        
+        /* --- Hero Section --- */
+        .hero {
+            display: flex;
+            align-items: center;
+            gap: 80px;
+            min-height: 100vh;
+            padding-top: 100px;
+        }
+        
+        .hero-label {
+            font-size: 18px;
+            font-weight: 500;
+            color: #00c73e;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .hero-label-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #00c73e;
+            border-radius: 50%;
+        }
+        
+        .hero-title {
+            font-size: 72px;
+            font-weight: 600;
+            line-height: 1.1;
+            margin: 0 0 20px;
+            max-width: 600px;
+        }
+        
+        .hero-subtitle {
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 40px;
+            max-width: 550px;
+        }
+        
+        .hero-cta {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 60px;
+        }
+        
+        .hero-cta-note {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 10px;
+        }
+        
+        .hero-cta-note span, .hero-cta-note a {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        
+        .hero-metrics {
+            display: flex;
+            gap: 60px;
+        }
+        
+        .hero-metric-value {
+            font-size: 36px;
+            font-weight: 600;
+            color: #00c73e;
+            line-height: 1.2;
+        }
+        
+        .hero-metric-label {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 5px;
+        }
+        
+        .hero-visual {
+            position: relative;
+            padding: 20px;
+            background-color: #1a1a1a;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero-visual-main img {
+            border-radius: 8px;
+        }
+        
+        .hero-visual-tag {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            transform: translate(20px, 20px);
+            background-color: #fff;
+            color: #000;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        
+        /* --- Stats Section --- */
+        .stats-section {
+            padding-bottom: 100px;
+        }
+        
+        .stats-section .section-title {
+            max-width: 550px;
+        }
+        
+        .stats-section .section-text {
+            max-width: 700px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .stat-card {
+            background-color: #1a1a1a;
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .stat-value {
+            font-size: 48px;
+            font-weight: 600;
+            color: #00c73e;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        /* --- Services Section --- */
+        .services-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+            margin-bottom: 50px;
+            align-items: flex-end;
+        }
+        
+        .services-header > div {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .services-subtitle {
+            flex: 1;
+            font-size: 20px;
+            line-height: 1.4;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .service-card {
+            background-color: #1a1a1a;
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .service-number {
+            font-size: 18px;
+            color: #00c73e;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .service-title {
+            font-size: 28px;
+            font-weight: 600;
+            line-height: 1.3;
+            margin-bottom: 15px;
+        }
+        
+        .service-text {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 30px;
+            flex-grow: 1;
+        }
+        
+        .service-tag-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: auto;
+        }
+        
+        .service-tag {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        
+        /* --- Clients/Ecosystem Section --- */
+        .clients-section {
+            padding: 100px 0;
+        }
+        
+        .clients-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        
+        .clients-top > div {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .clients-top .clients-text {
+            flex: 1;
+            max-width: 600px;
+        }
+        
+        .platforms-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .platform-pill {
+            background-color: #00c73e;
+            color: #000;
+            padding: 12px 25px;
+            border-radius: 40px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        /* --- Partners Section --- */
+        .partners-section {
+            padding: 100px 0;
+        }
+        
+        .partners-section .section-text {
+            margin-bottom: 40px;
+        }
+        
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .partner-card {
+            background-color: #1a1a1a;
+            padding: 20px 30px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            min-height: 100px;
+        }
+        
+        .partner-name {
+            font-size: 20px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        /* --- FAQ Section --- */
+        .faq-section {
+            padding: 100px 0;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 80px;
+        }
+        
+        .faq-intro-text {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 20px;
+        }
+        
+        .faq-list {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .faq-item {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 0;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        
+        .faq-q {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 24px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .faq-q:hover {
+            color: #00c73e;
+        }
+        
+        .faq-q span:last-child {
+            font-size: 30px;
+            line-height: 1;
+            font-weight: 400;
+            transition: transform 0.3s;
+        }
+        
+        .faq-a {
+            max-height: 0;
+            opacity: 0;
+            visibility: hidden;
+            padding-top: 0;
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.4s ease-out;
+        }
+        
+        .faq-item.open .faq-q {
+            color: #00c73e;
+        }
+        
+        .faq-item.open .faq-a {
+            max-height: 300px; /* Adjust based on max content size */
+            opacity: 1;
+            visibility: visible;
+            padding-top: 15px;
+        }
+        
+        /* --- Contact Section --- */
+        .contact-section {
+            padding-bottom: 100px;
+            display: flex;
+            gap: 80px;
+        }
+        
+        .contact-section > div {
+            flex: 1;
+        }
+        
+        .contact-card {
+            background-color: #1a1a1a;
+            padding: 40px;
+            border-radius: 12px;
+            flex: 1;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .contact-row {
+            font-size: 18px;
+            margin-top: 10px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .contact-note {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 30px;
+        }
+        
+        .popup-form-input,
+        .popup-form-textarea {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background-color: transparent;
+            color: #fff;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.2s;
+        }
+        
+        .popup-form-input:focus,
+        .popup-form-textarea:focus {
+            outline: none;
+            border-color: #00c73e;
+        }
+        
+        .popup-form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .popup-form-button {
+            width: 100%;
+            padding: 15px;
+            background-color: #00c73e;
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        
+        .popup-form-button:hover {
+            background-color: #00a030;
+        }
+        
+        /* --- Footer --- */
+        .footer {
+            padding: 30px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .copyright {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .footer-right {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .footer-link {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            transition: color 0.2s;
+        }
+        
+        .footer-link:hover {
+            color: #fff;
+        }
+        
+        /* --- Popups --- */
+        .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: none; /* Hidden by default */
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .popup-content {
+            background-color: #1a1a1a;
+            padding: 40px;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .popup-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.6);
+            transition: color 0.2s;
+        }
+        
+        .popup-close:hover {
+            color: #fff;
+        }
+        
+        /* --- Fade In Animation --- */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* --- Media Queries (Responsiveness) --- */
+        @media (max-width: 1024px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 120px;
+                min-height: auto;
+            }
+        
+            .hero > div {
+                order: 2;
+            }
+        
+            .hero-visual {
+                order: 1;
+                margin-bottom: 50px;
+                padding: 10px;
+            }
+        
+            .hero-visual-tag {
+                position: static;
+                transform: none;
+                margin-top: 10px;
+            }
+        
+            .hero-title {
+                font-size: 52px;
+                max-width: none;
+            }
+        
+            .hero-subtitle {
+                font-size: 20px;
+                max-width: none;
+            }
+        
+            .hero-cta {
+                align-items: center;
+            }
+        
+            .hero-metrics {
+                justify-content: center;
+            }
+        
+            .services-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        
+            .clients-top {
+                flex-direction: column;
+            }
+        
+            .faq-section {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        
+            .contact-section {
+                flex-direction: column;
+                gap: 40px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+        
+            .btn-primary {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+            
+            .lang-switch {
+                padding: 5px 8px;
+            }
+        
+            .menu-btn {
+                display: block;
+            }
+        
+            .section {
+                padding: 60px 0;
+            }
+        
+            .section-title, .clients-title {
+                font-size: 32px;
+            }
+        
+            .section-text, .clients-text {
+                font-size: 18px;
+            }
+        
+            .hero-title {
+                font-size: 40px;
+            }
+        
+            .hero-subtitle {
+                font-size: 18px;
+            }
+        
+            .hero-metrics {
+                flex-wrap: wrap;
+                gap: 30px;
+            }
+        
+            .footer-inner {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+        
+            .footer-right {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- NAV -->
-  <header class="nav">
-    <div class="nav-inner">
-      <a href="#top" class="logo">
-        <img
-          src="https://static.tildacdn.one/tild3731-3134-4637-b739-663465613831/_.png"
-          alt="Yolu logo"
-          class="logo-img"
-        />
-      </a>
 
-      <nav class="nav-links">
-        <a href="#services">Our services</a>
-        <a href="#cases">Cases</a>
-        <a href="#partners">Partners</a>
-        <a href="#faq">FAQ</a>
-        <a href="#contacts">Contacts</a>
-      </nav>
-
-      <div class="nav-right">
-        <button
-          type="button"
-          class="btn-primary js-open-popup"
-          data-popup-target="popup-form"
-        >
-          Submit your application →
-        </button>
-        <button class="lang-switch" type="button"><span>EN</span>▼</button>
-        <div class="menu-btn" id="menuBtn">
-          <span></span><span></span><span></span>
-        </div>
-      </div>
-    </div>
-
-    <nav class="mobile-nav" id="mobileNav">
-      <a href="#services">Our services</a>
-      <a href="#cases">Cases</a>
-      <a href="#partners">Partners</a>
-      <a href="#faq">FAQ</a>
-      <a href="#contacts">Contacts</a>
-      <button
-        type="button"
-        class="btn-primary js-open-popup"
-        data-popup-target="popup-form"
-        style="margin-top:8px;align-self:flex-start;"
-      >
-        Submit your application →
-      </button>
-    </nav>
-  </header>
-
-  <main class="page" id="top">
-    <div class="container">
-
-      <!-- HERO -->
-      <section class="hero fade-in">
-        <div>
-          <div class="hero-label">
-            <span class="hero-label-dot"></span>
-            <span>Multiplatform content monetization</span>
-          </div>
-          <h1 class="hero-title">
-            Turn your video library into predictable revenue
-          </h1>
-          <p class="hero-subtitle">
-            Yolu helps media companies and right holders launch and grow YouTube
-            channels, distribute their catalog across platforms, and earn more
-            from content they already own.
-          </p>
-          <div class="hero-cta">
-            <button
-              type="button"
-              class="btn-primary js-open-popup"
-              data-popup-target="popup-form"
-            >
-              Submit your application →
-            </button>
-            <div class="hero-cta-note">
-              By clicking the button, you agree to our <span>Privacy Policy</span>.
-            </div>
-          </div>
-          <div class="hero-metrics">
-            <div class="hero-metric">
-              <div class="hero-metric-value">5+</div>
-              <div class="hero-metric-label">years in the market</div>
-            </div>
-            <div class="hero-metric">
-              <div class="hero-metric-value">100+</div>
-              <div class="hero-metric-label">active channels</div>
-            </div>
-            <div class="hero-metric">
-              <div class="hero-metric-value">1.5B</div>
-              <div class="hero-metric-label">lifetime views</div>
-            </div>
-          </div>
-        </div>
-
-        <aside class="hero-visual fade-in">
-          <div class="hero-visual-main">
-            <img
-              src="https://static.tildacdn.one/tild6239-3362-4036-b830-343830306539/2.png"
-              alt="Yolu content ecosystem"
-              loading="lazy"
-            />
-          </div>
-          <div class="hero-visual-tag">
-            Owned-channel network & analytics
-          </div>
-        </aside>
-      </section>
-
-      <!-- STATS -->
-      <section class="section stats-section fade-in" aria-label="Yolu in numbers">
-        <div>
-          <div class="section-label">Yolu in numbers</div>
-          <h2 class="section-title">
-            Global audience and scalable infrastructure
-          </h2>
-          <p class="section-text">
-            We operate our own network of channels and distribute content across
-            multiple platforms and regions, so partners can enter new markets
-            without building a team from scratch.
-          </p>
-        </div>
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-value">10</div>
-            <div class="stat-label">media partners</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value">3</div>
-            <div class="stat-label">Gold YouTube buttons</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value">14</div>
-            <div class="stat-label">Silver YouTube buttons</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value">1.1B</div>
-            <div class="stat-label">views in 2023</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value">660M</div>
-            <div class="stat-label">hours of watch time</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value">4M</div>
-            <div class="stat-label">unique viewers in 50+ countries</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SERVICES -->
-      <section class="section fade-in" id="services">
-        <div class="services-header">
-          <div>
-            <div class="section-label">Our services</div>
-            <h2 class="section-title">Full-cycle YouTube and AVOD partnership</h2>
-          </div>
-          <p class="services-subtitle">
-            We plug into your catalog, handle all the technical and operational
-            work, and share revenue from the platforms we manage on your behalf.
-          </p>
-        </div>
-        <div class="services-grid">
-          <article class="service-card">
-            <div class="service-number">01</div>
-            <div class="service-title">Content licensing &amp; monetization</div>
-            <div class="service-text">
-              We launch and manage channels using your library, configure payouts,
-              and optimize catalog performance across supported platforms.
-            </div>
-            <div class="service-tag-row">
-              <span class="service-tag">YouTube</span>
-              <span class="service-tag">AVOD / FAST</span>
-              <span class="service-tag">Analytics</span>
-            </div>
-          </article>
-
-          <article class="service-card">
-            <div class="service-number">02</div>
-            <div class="service-title">Marketing YouTube channels</div>
-            <div class="service-text">
-              We support branded and marketing channels for companies, handling
-              strategy, publishing and promotion to reach your target audience.
-            </div>
-            <div class="service-tag-row">
-              <span class="service-tag">Brand safety</span>
-              <span class="service-tag">Growth strategy</span>
-              <span class="service-tag">Performance</span>
-            </div>
-          </article>
-
-          <article class="service-card">
-            <div class="service-number">03</div>
-            <div class="service-title">
-              Localization, new markets &amp; anti-piracy
-            </div>
-            <div class="service-text">
-              We dub, package and re-launch content in new languages, while our
-              anti-piracy tools protect your rights and clean up unauthorized
-              uploads.
-            </div>
-            <div class="service-tag-row">
-              <span class="service-tag">Dubbing</span>
-              <span class="service-tag">Subtitles</span>
-              <span class="service-tag">Rights enforcement</span>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <!-- ECOSYSTEM -->
-      <section class="clients-section fade-in" id="cases">
-        <div class="clients-top">
-          <div>
-            <div class="section-label">Our ecosystem</div>
-            <div class="clients-title">Where we publish and grow content</div>
-          </div>
-          <p class="clients-text">
-            We collaborate with rights holders, studios, TV channels and digital
-            publishers. Content can be distributed not only on YouTube, but also
-            on other major video platforms and FAST/OTT services.
-          </p>
-        </div>
-        <div class="platforms-row">
-          <span class="platform-pill">YouTube</span>
-          <span class="platform-pill">TikTok</span>
-          <span class="platform-pill">DailyMotion</span>
-          <span class="platform-pill">FAST / TV</span>
-          <span class="platform-pill">OTT</span>
-          <span class="platform-pill">Social video</span>
-        </div>
-      </section>
-
-      <!-- PARTNERS -->
-      <section class="partners-section fade-in" id="partners">
-        <div class="section-label">Partners</div>
-        <h2 class="section-title">Production companies we collaborate with</h2>
-        <p class="section-text">
-          Yolu builds long–term partnerships with film and production studios
-          across Europe to help their projects reach digital audiences and unlock
-          additional revenue from back catalog.
-        </p>
-
-        <div class="partners-grid">
-          <div class="partner-card">
-            <div class="partner-name">Cuba Films &amp; Estonian Production Service</div>
-          </div>
-          <div class="partner-card">
-            <div class="partner-name">Vitamin K</div>
-          </div>
-          <div class="partner-card">
-            <div class="partner-name">Nafta Films</div>
-          </div>
-          <div class="partner-card">
-            <div class="partner-name">Film Tower</div>
-          </div>
-          <div class="partner-card">
-            <div class="partner-name">ACP Productions</div>
-          </div>
-          <div class="partner-card">
-            <div class="partner-name">Obliquo / Stellar Film</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- FAQ -->
-      <section class="faq-section fade-in" id="faq">
-        <div>
-          <div class="section-label">FAQ</div>
-          <h2 class="section-title">What is it like to work with Yolu?</h2>
-          <p class="faq-intro-text">
-            We answer the most common questions about rights, geos and the
-            required volume of content.
-          </p>
-        </div>
-        <div class="faq-list">
-          <article class="faq-item">
-            <div class="faq-q">
-              <span>What type of content do you work with?</span>
-              <span>+</span>
-            </div>
-            <div class="faq-a">
-              Any catalog that complies with platform rules: films, series, TV
-              shows, kids content and more. We review the library, highlight
-              suitable titles and advise what cannot be published.
-            </div>
-          </article>
-
-          <article class="faq-item">
-            <div class="faq-q">
-              <span>We have territorial restrictions. Is that a problem?</span>
-              <span>+</span>
-            </div>
-            <div class="faq-a">
-              No. We configure geoblocking and publish only in the countries for
-              which you hold the rights.
-            </div>
-          </article>
-
-          <article class="faq-item">
-            <div class="faq-q">
-              <span>We don’t have time to learn all the details.</span>
-              <span>+</span>
-            </div>
-            <div class="faq-a">
-              That’s exactly why our model exists. You transfer the library to
-              us, we handle operations, and you receive additional income.
-            </div>
-          </article>
-
-          <article class="faq-item">
-            <div class="faq-q">
-              <span>How do you earn money?</span>
-              <span>+</span>
-            </div>
-            <div class="faq-a">
-              We work on a revenue-share basis: we keep a percentage of the
-              monetization that your content generates. Our incentives are fully
-              aligned with yours.
-            </div>
-          </article>
-
-          <article class="faq-item">
-            <div class="faq-q">
-              <span>What volume of rights is needed to start?</span>
-              <span>+</span>
-            </div>
-            <div class="faq-a">
-              As a rule of thumb, we recommend at least 50+ hours of content with
-              clear rights. The exact threshold depends on the genre and target
-              platforms.
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <!-- CONTACTS -->
-      <section class="contact-section fade-in" id="contacts">
-        <div class="contact-card">
-          <div class="section-label">Contacts</div>
-          <h2 class="section-title">Let’s talk about your catalog</h2>
-          <div class="contact-row">
-            <strong>E-mail:</strong> contentmanager@yolu.tv
-          </div>
-          <div class="contact-note">
-            We’ll review your library, estimate the potential and return with
-            a proposal for cooperation.
-          </div>
-        </div>
-
-        <div class="contact-card">
-          <div class="section-label">Quick application</div>
-          <h2 class="section-title">Send us a short brief</h2>
-          <p class="section-text">
-            Answer a few questions about your content and our team will get back
-            to you within one business day.
-          </p>
-          <div style="margin-top:16px;">
-            <button
-              type="button"
-              class="btn-primary js-open-popup"
-              data-popup-target="popup-form"
-            >
-              Open application form →
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <!-- FOOTER -->
-      <footer class="footer">
-        <div>© Yolu. All rights reserved.</div>
-
-        <div class="footer-links">
-          <div class="social">
-            <a href="https://www.instagram.com/yolu.tv/" target="_blank" rel="noopener">
-              <img src="https://static.tildacdn.one/tild6437-3736-4438-b331-346439616439/photo.svg" alt="Instagram" />
+    <header class="nav">
+        <div class="nav-inner">
+            <a href="#top" class="logo">
+                <img src="https://static.tildacdn.one/tild3731-3134-4637-b739-663465613831/_.png" alt="Yolu logo" class="logo-img" />
             </a>
-            <a href="https://www.linkedin.com/company/yolu-mcn/about/" target="_blank" rel="noopener">
-              <img src="https://static.tildacdn.one/tild6261-6666-4536-b639-613361633162/Group_73.svg" alt="LinkedIn" />
-            </a>
-            <a href="https://www.facebook.com/profile.php?id=61556386874958" target="_blank" rel="noopener">
-              <img src="https://static.tildacdn.one/tild6166-3562-4730-b764-666132323237/Group_50.svg" alt="Facebook" />
-            </a>
-          </div>
-          <button
-            type="button"
-            class="link-button js-open-popup"
-            data-popup-target="popup-privacy"
-          >
-            Privacy Policy
-          </button>
+            <nav class="nav-links">
+                <a href="#services">Our services</a>
+                <a href="#cases">Cases</a>
+                <a href="#partners">Partners</a>
+                <a href="#faq">FAQ</a>
+                <a href="#contacts">Contacts</a>
+            </nav>
+            <div class="nav-right">
+                <button type="button" class="btn-primary js-open-popup" data-popup-target="popup-form">Submit your application →</button>
+                <button class="lang-switch" type="button"><span>EN</span> ▼ </button>
+                <div class="menu-btn" id="menuBtn">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
         </div>
-      </footer>
+        <nav class="mobile-nav" id="mobileNav">
+            <a href="#services">Our services</a>
+            <a href="#cases">Cases</a>
+            <a href="#partners">Partners</a>
+            <a href="#faq">FAQ</a>
+            <a href="#contacts">Contacts</a>
+            <button type="button" class="btn-primary js-open-popup" data-popup-target="popup-form" style="margin-top:8px;align-self:flex-start;">Submit your application →</button>
+        </nav>
+    </header>
+
+    <main class="page" id="top">
+        <div class="container">
+            <section class="hero fade-in">
+                <div>
+                    <div class="hero-label">
+                        <span class="hero-label-dot"></span>
+                        <span>Multiplatform content monetization</span>
+                    </div>
+                    <h1 class="hero-title">Turn your video library into predictable revenue</h1>
+                    <p class="hero-subtitle">Yolu helps media companies and right holders launch and grow YouTube channels, distribute their catalog across platforms, and earn more from content they already own.</p>
+                    <div class="hero-cta">
+                        <button type="button" class="btn-primary js-open-popup" data-popup-target="popup-form">Submit your application →</button>
+                        <div class="hero-cta-note">By clicking the button, you agree to our <span>Privacy Policy</span>.</div>
+                    </div>
+                    <div class="hero-metrics">
+                        <div class="hero-metric">
+                            <div class="hero-metric-value">5+</div>
+                            <div class="hero-metric-label">years in the market</div>
+                        </div>
+                        <div class="hero-metric">
+                            <div class="hero-metric-value">100+</div>
+                            <div class="hero-metric-label">active channels</div>
+                        </div>
+                        <div class="hero-metric">
+                            <div class="hero-metric-value">1.5B</div>
+                            <div class="hero-metric-label">lifetime views</div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="hero-visual fade-in">
+                    <div class="hero-visual-main">
+                        <img src="https://static.tildacdn.one/tild6239-3362-4036-b830-343830306539/2.png" alt="Yolu content ecosystem" loading="lazy" />
+                    </div>
+                    <div class="hero-visual-tag">Owned-channel network & analytics</div>
+                </aside>
+            </section>
+            <section class="section stats-section fade-in" aria-label="Yolu in numbers">
+                <div>
+                    <div class="section-label">Yolu in numbers</div>
+                    <h2 class="section-title">Global audience and scalable infrastructure</h2>
+                    <p class="section-text">We operate our own network of channels and distribute content across multiple platforms and regions, so partners can enter new markets without building a team from scratch.</p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">10</div>
+                        <div class="stat-label">media partners</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">3</div>
+                        <div class="stat-label">Gold YouTube buttons</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">14</div>
+                        <div class="stat-label">Silver YouTube buttons</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">1.1B</div>
+                        <div class="stat-label">views in 2023</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">660M</div>
+                        <div class="stat-label">hours of watch time</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">4M</div>
+                        <div class="stat-label">unique viewers in 50+ countries</div>
+                    </div>
+                </div>
+            </section>
+            <section class="section fade-in" id="services">
+                <div class="services-header">
+                    <div>
+                        <div class="section-label">Our services</div>
+                        <h2 class="section-title">Full-cycle YouTube and AVOD partnership</h2>
+                    </div>
+                    <p class="services-subtitle">We plug into your catalog, handle all the technical and operational work, and share revenue from the platforms we manage on your behalf.</p>
+                </div>
+                <div class="services-grid">
+                    <article class="service-card">
+                        <div class="service-number">01</div>
+                        <div class="service-title">Content licensing &amp; monetization</div>
+                        <div class="service-text">We launch and manage channels using your library, configure payouts, and optimize catalog performance across supported platforms.</div>
+                        <div class="service-tag-row">
+                            <span class="service-tag">YouTube</span>
+                            <span class="service-tag">AVOD / FAST</span>
+                            <span class="service-tag">Analytics</span>
+                        </div>
+                    </article>
+                    <article class="service-card">
+                        <div class="service-number">02</div>
+                        <div class="service-title">Marketing YouTube channels</div>
+                        <div class="service-text">We support branded and marketing channels for companies, handling strategy, publishing and promotion to reach your target audience.</div>
+                        <div class="service-tag-row">
+                            <span class="service-tag">Brand safety</span>
+                            <span class="service-tag">Growth strategy</span>
+                            <span class="service-tag">Performance</span>
+                        </div>
+                    </article>
+                    <article class="service-card">
+                        <div class="service-number">03</div>
+                        <div class="service-title">Localization, new markets &amp; anti-piracy</div>
+                        <div class="service-text">We dub, package and re-launch content in new languages, while our anti-piracy tools protect your rights and clean up unauthorized uploads.</div>
+                        <div class="service-tag-row">
+                            <span class="service-tag">Dubbing</span>
+                            <span class="service-tag">Subtitles</span>
+                            <span class="service-tag">Rights enforcement</span>
+                        </div>
+                    </article>
+                </div>
+            </section>
+            <section class="clients-section fade-in" id="cases">
+                <div class="clients-top">
+                    <div>
+                        <div class="section-label">Our ecosystem</div>
+                        <div class="clients-title">Where we publish and grow content</div>
+                    </div>
+                    <p class="clients-text">We collaborate with rights holders, studios, TV channels and digital publishers. Content can be distributed not only on YouTube, but also on other major video platforms and FAST/OTT services.</p>
+                </div>
+                <div class="platforms-row">
+                    <span class="platform-pill">YouTube</span>
+                    <span class="platform-pill">TikTok</span>
+                    <span class="platform-pill">DailyMotion</span>
+                    <span class="platform-pill">FAST / TV</span>
+                    <span class="platform-pill">OTT</span>
+                    <span class="platform-pill">Social video</span>
+                </div>
+            </section>
+            <section class="partners-section fade-in" id="partners">
+                <div class="section-label">Partners</div>
+                <h2 class="section-title">Production companies we collaborate with</h2>
+                <p class="section-text">Yolu builds long–term partnerships with film and production studios across Europe to help their projects reach digital audiences and unlock additional revenue from back catalog.</p>
+                <div class="partners-grid">
+                    <div class="partner-card">
+                        <div class="partner-name">Cuba Films &amp; Estonian Production Service</div>
+                    </div>
+                    <div class="partner-card">
+                        <div class="partner-name">Vitamin K</div>
+                    </div>
+                    <div class="partner-card">
+                        <div class="partner-name">Nafta Films</div>
+                    </div>
+                    <div class="partner-card">
+                        <div class="partner-name">Film Tower</div>
+                    </div>
+                    <div class="partner-card">
+                        <div class="partner-name">ACP Productions</div>
+                    </div>
+                    <div class="partner-card">
+                        <div class="partner-name">Obliquo / Stellar Film</div>
+                    </div>
+                </div>
+            </section>
+            <section class="faq-section fade-in" id="faq">
+                <div>
+                    <div class="section-label">FAQ</div>
+                    <h2 class="section-title">What is it like to work with Yolu?</h2>
+                    <p class="faq-intro-text">We answer the most common questions about rights, geos and the required volume of content.</p>
+                </div>
+                <div class="faq-list">
+                    <article class="faq-item">
+                        <div class="faq-q">
+                            <span>What type of content do you work with?</span>
+                            <span>+</span>
+                        </div>
+                        <div class="faq-a">Any catalog that complies with platform rules: films, series, TV shows, kids content and more. We review the library, highlight suitable titles and advise what cannot be published.</div>
+                    </article>
+                    <article class="faq-item">
+                        <div class="faq-q">
+                            <span>We have territorial restrictions. Is that a problem?</span>
+                            <span>+</span>
+                        </div>
+                        <div class="faq-a">No. We configure geoblocking and publish only in the countries for which you hold the rights.</div>
+                    </article>
+                    <article class="faq-item">
+                        <div class="faq-q">
+                            <span>We don’t have time to learn all the details.</span>
+                            <span>+</span>
+                        </div>
+                        <div class="faq-a">That’s exactly why our model exists. You transfer the library to us, we handle operations, and you receive additional income.</div>
+                    </article>
+                    <article class="faq-item">
+                        <div class="faq-q">
+                            <span>How do you earn money?</span>
+                            <span>+</span>
+                        </div>
+                        <div class="faq-a">We work on a revenue-share basis: we keep a percentage of the monetization that your content generates. Our incentives are fully aligned with yours.</div>
+                    </article>
+                    <article class="faq-item">
+                        <div class="faq-q">
+                            <span>What volume of rights is needed to start?</span>
+                            <span>+</span>
+                        </div>
+                        <div class="faq-a">There is no minimum threshold, but the largest catalogs generate the most revenue. Contact us, and we will advise you on the most effective monetization strategy for your content.</div>
+                    </article>
+                </div>
+            </section>
+            <section class="contact-section fade-in" id="contacts">
+                <div>
+                    <div class="section-label">Contacts</div>
+                    <h2 class="section-title">Ready to launch or grow your business?</h2>
+                    <p class="section-text">Leave a request, and we will analyze your catalog, answer questions and prepare a strategy for work within 1–2 days.</p>
+                    <div class="contact-row">
+                        <strong>Legal name:</strong> Yolu Labs OÜ
+                    </div>
+                    <div class="contact-row">
+                        <strong>Reg. Code:</strong> 16298547
+                    </div>
+                    <div class="contact-row">
+                        <strong>Address:</strong> Estonia, Tallinn, Lasnamae linnaosa, Sepapaja tn 6, 15551
+                    </div>
+                    <div class="contact-note">We do not work with individuals or small content libraries.</div>
+                </div>
+                <aside class="contact-card">
+                    <form id="contactForm">
+                        <div class="clients-title">Submit your application</div>
+                        <p class="clients-text" style="margin-bottom:12px;">We aim to reply in 1 business day.</p>
+                        <input type="text" name="name" class="popup-form-input" placeholder="Your name" required />
+                        <input type="email" name="email" class="popup-form-input" placeholder="Your email" required />
+                        <input type="text" name="company" class="popup-form-input" placeholder="Your company name or website" />
+                        <textarea name="message" class="popup-form-textarea" placeholder="Briefly describe your content library"></textarea>
+                        <button type="submit" class="popup-form-button">Submit your application</button>
+                        <div class="hero-cta-note" style="margin-top: 10px;">By clicking the button, you agree to our <a href="#" class="link-button js-open-popup" data-popup-target="popup-privacy">Privacy Policy</a>.</div>
+                    </form>
+                </aside>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="footer-left">
+                <a href="#top" class="logo">
+                    <img src="https://static.tildacdn.one/tild3731-3134-4637-b739-663465613831/_.png" alt="Yolu logo" class="logo-img" />
+                </a>
+                <div class="copyright">Yolu Labs OÜ, Reg. Code: 16298547</div>
+            </div>
+            <div class="footer-right">
+                <a href="#" class="footer-link js-open-popup" data-popup-target="popup-privacy">Privacy Policy</a>
+                <a href="mailto:hello@yolu.network" class="footer-link">hello@yolu.network</a>
+            </div>
+        </div>
+    </footer>
+
+    <div class="popup" id="popup-form">
+        <div class="popup-content">
+            <button class="popup-close" type="button">X</button>
+            <div class="clients-title">Submit your application</div>
+            <p class="clients-text" style="margin-bottom:12px;">We aim to reply in 1 business day.</p>
+            <form id="popupForm">
+                <input type="text" name="name" class="popup-form-input" placeholder="Your name" required />
+                <input type="email" name="email" class="popup-form-input" placeholder="Your email" required />
+                <input type="text" name="company" class="popup-form-input" placeholder="Your company name or website" />
+                <textarea name="message" class="popup-form-textarea" placeholder="Briefly describe your content library"></textarea>
+                <button type="submit" class="popup-form-button">Submit your application</button>
+                <div class="hero-cta-note" style="margin-top: 10px;">By clicking the button, you agree to our <a href="#" class="link-button js-open-popup" data-popup-target="popup-privacy">Privacy Policy</a>.</div>
+            </form>
+        </div>
     </div>
-  </main>
 
-  <!-- POPUP: APPLICATION FORM -->
-  <div class="popup" id="popup-form">
-    <div class="popup-content">
-      <span class="popup-close">&times;</span>
-      <h3>Submit your application</h3>
-      <p>Tell us briefly about your content. We’ll reach out within 24 hours.</p>
-
-      <!-- Заменишь YOUR_FORMSPREE_ID на свой ID из Formspree -->
-      <form action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
-        <input
-          type="text"
-          name="name"
-          placeholder="Your name"
-          required
-          class="popup-form-input"
-        />
-        <input
-          type="email"
-          name="_replyto"
-          placeholder="Email"
-          required
-          class="popup-form-input"
-        />
-        <textarea
-          name="message"
-          placeholder="Tell us about your catalog: hours of content, genres, geos, languages…"
-          rows="5"
-          required
-          class="popup-form-textarea"
-        ></textarea>
-
-        <button type="submit" class="popup-form-button">
-          Send
-        </button>
-      </form>
+    <div class="popup" id="popup-privacy">
+        <div class="popup-content">
+            <button class="popup-close" type="button">X</button>
+            <div class="clients-title">Privacy Policy</div>
+            <p class="clients-text">
+                <p>This is a placeholder for your Privacy Policy. Please replace this text with your actual legal document.</p>
+                <p>Your privacy is important to us. This policy explains how we collect, use, and disclose information from and about you when you use our website, located at yolu.network.</p>
+                </p>
+        </div>
     </div>
-  </div>
 
-  <!-- POPUP: PRIVACY POLICY -->
-  <div class="popup popup-privacy" id="popup-privacy">
-    <div class="popup-content">
-      <span class="popup-close">&times;</span>
-      <h3>Privacy Policy</h3>
-      <p>You can read our full Privacy Policy in the document below.</p>
-      <!-- сюда можно подставить свой документ -->
-      <iframe
-        src="https://drive.google.com/file/d/1KGlfPfzqklUWfjLuOUhiLYu-ociOCeDj/preview"
-        width="100%"
-        height="420"
-        style="border:none;"
-      ></iframe>
-    </div>
-  </div>
 
-  <script>
-    // Fade-in анимации
-    (function () {
-      if (!("IntersectionObserver" in window)) {
-        document.querySelectorAll(".fade-in").forEach(function (el) {
-          el.classList.add("visible");
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // 1. Мобильное меню (Гамбургер)
+            (function () {
+                var menuBtn = document.getElementById("menuBtn");
+                var mobileNav = document.getElementById("mobileNav");
+
+                if (!menuBtn || !mobileNav) return;
+
+                menuBtn.addEventListener("click", function () {
+                    this.classList.toggle("open");
+                    mobileNav.classList.toggle("open");
+                });
+
+                // Закрываем меню при клике на ссылку
+                mobileNav.querySelectorAll('a').forEach(function(link) {
+                    link.addEventListener('click', function() {
+                        menuBtn.classList.remove("open");
+                        mobileNav.classList.remove("open");
+                    });
+                });
+            })();
+
+            // 2. Логика Попапов (открытие/закрытие)
+            (function () {
+                // Открытие попапа
+                document.querySelectorAll(".js-open-popup").forEach(function (btn) {
+                    btn.addEventListener("click", function (e) {
+                        e.preventDefault();
+                        var targetId = btn.getAttribute("data-popup-target");
+                        var popup = document.getElementById(targetId);
+                        if (popup) {
+                            popup.style.display = "flex";
+                        }
+                    });
+                });
+
+                // Закрытие попапа по крестику
+                document.querySelectorAll(".popup-close").forEach(function (closeBtn) {
+                    closeBtn.addEventListener("click", function () {
+                        closeBtn.closest(".popup").style.display = "none";
+                    });
+                });
+
+                // Закрытие попапа по клику вне контента
+                document.addEventListener("click", function (e) {
+                    if (e.target.classList.contains("popup")) {
+                        e.target.style.display = "none";
+                    }
+                });
+            })();
+
+            // 3. Аккордеон FAQ
+            (function () {
+                document.querySelectorAll(".faq-item .faq-q").forEach(function (q) {
+                    q.addEventListener("click", function () {
+                        var item = q.parentElement;
+                        var open = item.classList.contains("open");
+                        
+                        // закрываем остальные
+                        document.querySelectorAll(".faq-item").forEach(function (i) {
+                            i.classList.remove("open");
+                            var icon = i.querySelector(".faq-q span:last-child");
+                            if (icon) icon.textContent = "+";
+                        });
+                        
+                        // открываем текущий, если он не был открыт
+                        if (!open) {
+                            item.classList.add("open");
+                            var icon = item.querySelector(".faq-q span:last-child");
+                            if (icon) icon.textContent = "−"; // Используем минус юникод
+                        }
+                    });
+                });
+            })();
+
+            // 4. Плавный скролл только для обычных anchor-ссылок
+            (function () {
+                document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+                    anchor.addEventListener("click", function (e) {
+                        var href = anchor.getAttribute("href");
+                        if (!href || href === "#") return;
+                        
+                        // Проверяем, что ссылка не предназначена для открытия попапа
+                        if (anchor.classList.contains('js-open-popup')) {
+                            return;
+                        }
+
+                        var target = document.querySelector(href);
+                        if (target) {
+                            e.preventDefault();
+                            target.scrollIntoView({ behavior: "smooth" });
+                        }
+                    });
+                });
+            })();
+
+            // 5. Анимация появления элементов (Fade In) при прокрутке
+            var observer = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); // Остановить наблюдение после появления
+                    }
+                });
+            }, {
+                rootMargin: '0px',
+                threshold: 0.1 // Срабатывает, когда 10% элемента видно
+            });
+
+            document.querySelectorAll('.fade-in').forEach(function (element) {
+                observer.observe(element);
+            });
+
+            // 6. Обработка форм
+            function handleFormSubmission(formId) {
+                var form = document.getElementById(formId);
+                if (!form) return;
+
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // ВАЖНО: Здесь вам нужно будет реализовать логику отправки данных на ваш сервер.
+                    // Сейчас это просто заглушка:
+                    console.log('Form submitted:', new FormData(form));
+
+                    alert('Application submitted! Thank you. We will contact you shortly.');
+                    form.reset();
+                    
+                    // Закрыть попап после отправки, если форма находится в нем
+                    var popup = e.target.closest('.popup');
+                    if (popup) {
+                        popup.style.display = 'none';
+                    }
+                });
+            }
+
+            handleFormSubmission('contactForm'); // Форма в секции контактов
+            handleFormSubmission('popupForm');   // Форма во всплывающем окне
+
         });
-        return;
-      }
-
-      var observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.15 });
-
-      document.querySelectorAll(".fade-in").forEach(function (el) {
-        observer.observe(el);
-      });
-    })();
-
-    // Burger / mobile menu
-    (function () {
-      var menuBtn = document.getElementById("menuBtn");
-      var mobileNav = document.getElementById("mobileNav");
-
-      if (!menuBtn || !mobileNav) return;
-
-      menuBtn.addEventListener("click", function () {
-        mobileNav.classList.toggle("active");
-      });
-
-      // Закрывать меню при клике по пункту
-      mobileNav.querySelectorAll("a").forEach(function (link) {
-        link.addEventListener("click", function () {
-          mobileNav.classList.remove("active");
-        });
-      });
-    })();
-
-    // Popup logic (форма + privacy)
-    (function () {
-      function openPopup(id) {
-        var popup = document.getElementById(id);
-        if (popup) popup.style.display = "flex";
-      }
-
-      function closePopup(el) {
-        var popup = el.closest(".popup");
-        if (popup) popup.style.display = "none";
-      }
-
-      document.querySelectorAll(".js-open-popup").forEach(function (btn) {
-        btn.addEventListener("click", function () {
-          var target = btn.getAttribute("data-popup-target");
-          if (target) openPopup(target);
-        });
-      });
-
-      document.querySelectorAll(".popup-close").forEach(function (closeBtn) {
-        closeBtn.addEventListener("click", function () {
-          closePopup(closeBtn);
-        });
-      });
-
-      window.addEventListener("click", function (e) {
-        if (e.target.classList.contains("popup")) {
-          e.target.style.display = "none";
-        }
-      });
-    })();
-
-    // FAQ toggle
-    (function () {
-      document.querySelectorAll(".faq-item .faq-q").forEach(function (q) {
-        q.addEventListener("click", function () {
-          var item = q.parentElement;
-          var open = item.classList.contains("open");
-
-          // закрываем остальные
-          document.querySelectorAll(".faq-item").forEach(function (i) {
-            i.classList.remove("open");
-            var icon = i.querySelector(".faq-q span:last-child");
-            if (icon) icon.textContent = "+";
-          });
-
-          if (!open) {
-            item.classList.add("open");
-            var icon = item.querySelector(".faq-q span:last-child");
-            if (icon) icon.textContent = "−";
-          }
-        });
-      });
-    })();
-
-    // Плавный скролл только для обычных anchor-ссылок (не попапы)
-    (function () {
-      document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
-        anchor.addEventListener("click", function (e) {
-          var href = anchor.getAttribute("href");
-
-          if (!href || href === "#" ) return;
-
-          // если это не попап и не внешняя ссылка
-          var target = document.querySelector(href);
-          if (target) {
-            e.preventDefault();
-            target.scrollIntoView({ behavior: "smooth" });
-          }
-        });
-      });
-    })();
-  </script>
+    </script>
 </body>
 </html>
