@@ -38,9 +38,10 @@
     }
 
     .page {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 24px 32px 60px;
+      width: 100%;
+      max-width: 100%;
+      margin: 0;
+      padding: 24px 40px 60px;
     }
 
     /* NAV */
@@ -57,12 +58,13 @@
         transparent
       );
       margin: -24px 0 0;
-      padding: 16px 32px 8px;
+      padding: 16px 40px 8px;
     }
 
     .nav-inner {
-      max-width: 1400px;
-      margin: 0 auto;
+      width: 100%;
+      max-width: 100%;
+      margin: 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -172,7 +174,7 @@
       margin-top: 72px;
       min-height: calc(100vh - 96px);
       display: grid;
-      grid-template-columns: minmax(0, 3.2fr) minmax(280px, 2.4fr);
+      grid-template-columns: minmax(0, 3.2fr) minmax(320px, 2.3fr);
       gap: 40px;
       align-items: center;
     }
@@ -698,6 +700,19 @@
       flex-wrap: wrap;
     }
 
+    /* SCROLL REVEAL ANIMATION */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     /* RESPONSIVE */
 
     @media (max-width: 1100px) {
@@ -732,7 +747,7 @@
         row-gap: 8px;
       }
       .nav-links {
-        display: none; /* если захочешь бургер — потом сделаем */
+        display: none; /* при желании можно сделать бургер */
       }
       .hero {
         grid-template-columns: minmax(0, 1fr);
@@ -774,14 +789,14 @@
         <a href="#contacts">Contacts</a>
       </nav>
       <div style="display:flex;align-items:center;gap:10px;">
-        <button class="btn-primary">Submit your application</button>
+        <a href="#contacts" class="btn-primary">Submit your application</a>
         <button class="lang-switch"><span>EN</span>▼</button>
       </div>
     </div>
   </header>
 
   <main class="page">
-    <!-- HERO -->
+    <!-- HERO (без reveal, видно сразу) -->
     <section class="hero" id="top">
       <div>
         <div class="hero-label">
@@ -797,10 +812,10 @@
           from content they already own.
         </p>
         <div class="hero-cta">
-          <button class="btn-primary">
+          <a href="#contacts" class="btn-primary">
             Submit your application
             <span>→</span>
-          </button>
+          </a>
           <div class="hero-cta-note">
             By clicking the button, you agree to our <span>Privacy Policy</span>.
           </div>
@@ -848,7 +863,7 @@
     </section>
 
     <!-- STATS -->
-    <section class="stats-section" aria-label="Yolu in numbers">
+    <section class="stats-section reveal" aria-label="Yolu in numbers">
       <div>
         <div class="section-label">Yolu in numbers</div>
         <h2 class="section-title">
@@ -889,7 +904,7 @@
     </section>
 
     <!-- SERVICES -->
-    <section class="services-section" id="services">
+    <section class="services-section reveal" id="services">
       <div class="services-header">
         <div>
           <div class="section-label">Our services</div>
@@ -949,7 +964,7 @@
     </section>
 
     <!-- CLIENTS / PLATFORMS -->
-    <section class="clients-section" id="cases">
+    <section class="clients-section reveal" id="cases">
       <div class="clients-top">
         <div>
           <div class="section-label">Our ecosystem</div>
@@ -972,7 +987,7 @@
     </section>
 
     <!-- PARTNERS -->
-    <section class="partners-section" id="partners">
+    <section class="partners-section reveal" id="partners">
       <div class="section-label">Partners</div>
       <h2 class="section-title">Production companies we collaborate with</h2>
       <p class="section-text">
@@ -1004,7 +1019,7 @@
     </section>
 
     <!-- FAQ -->
-    <section class="faq-section" id="faq">
+    <section class="faq-section reveal" id="faq">
       <div>
         <div class="section-label">FAQ</div>
         <h2 class="section-title">What is it like to work with Yolu?</h2>
@@ -1058,7 +1073,7 @@
     </section>
 
     <!-- CONTACTS -->
-    <section class="contact-section" id="contacts">
+    <section class="contact-section reveal" id="contacts">
       <div class="contact-card">
         <div class="section-label">Contacts</div>
         <h2 class="section-title">Let’s talk about your catalog</h2>
@@ -1066,12 +1081,20 @@
           <strong>E-mail:</strong> contentmanager@yolu.tv
         </div>
         <div class="contact-row">
+          <strong>General:</strong> hello@yolu.network
+        </div>
+        <div class="contact-row">
           We’ll review your library, estimate the potential and return with
           a proposal for cooperation.
         </div>
       </div>
 
-      <form class="contact-form">
+      <!-- ФОРМА: endpoint нужно заменить на реальный (см. объяснение ниже) -->
+      <form
+        class="contact-form"
+        action="https://formspree.io/f/your-endpoint-id"
+        method="POST"
+      >
         <div class="form-title">Submit your application</div>
         <div class="form-subtitle">
           Tell us briefly about your content and how you are monetizing it now.
@@ -1079,28 +1102,59 @@
 
         <div class="form-row">
           <label class="form-label" for="service">What service are you interested in?</label>
-          <select id="service" class="form-select">
-            <option>Content licensing & monetization</option>
-            <option>Marketing YouTube channels</option>
-            <option>Localization & new markets</option>
-            <option>Anti-piracy</option>
+          <select id="service" name="service" class="form-select" required>
+            <option value="Content licensing & monetization">
+              Content licensing & monetization
+            </option>
+            <option value="Marketing YouTube channels">
+              Marketing YouTube channels
+            </option>
+            <option value="Localization & new markets">
+              Localization & new markets
+            </option>
+            <option value="Anti-piracy">
+              Anti-piracy
+            </option>
           </select>
         </div>
 
         <div class="form-row">
           <label class="form-label" for="name">Name</label>
-          <input id="name" class="form-input" type="text" placeholder="Your name" />
+          <input
+            id="name"
+            name="name"
+            class="form-input"
+            type="text"
+            placeholder="Your name"
+            required
+          />
         </div>
 
         <div class="form-row">
           <label class="form-label" for="email">E-mail</label>
-          <input id="email" class="form-input" type="email" placeholder="you@company.com" />
+          <input
+            id="email"
+            name="_replyto"
+            class="form-input"
+            type="email"
+            placeholder="you@company.com"
+            required
+          />
         </div>
 
         <div class="form-row">
           <label class="form-label" for="message">Catalog / project description</label>
-          <textarea id="message" class="form-textarea" placeholder="Hours of content, genres, languages, current platforms…"></textarea>
+          <textarea
+            id="message"
+            name="message"
+            class="form-textarea"
+            placeholder="Hours of content, genres, languages, current platforms…"
+            required
+          ></textarea>
         </div>
+
+        <!-- Можно задать тему письма -->
+        <input type="hidden" name="_subject" value="New application from yolu.network" />
 
         <div class="form-footer">
           <button type="submit" class="btn-primary">
@@ -1124,5 +1178,28 @@
       </div>
     </footer>
   </main>
+
+  <!-- SCROLL REVEAL SCRIPT -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const elements = document.querySelectorAll(".reveal");
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              observer.unobserve(entry.target); // анимируем только 1 раз
+            }
+          });
+        },
+        {
+          threshold: 0.15,
+        }
+      );
+
+      elements.forEach((el) => observer.observe(el));
+    });
+  </script>
 </body>
 </html>
