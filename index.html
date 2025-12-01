@@ -3,110 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Yolu gives you the opportunity to earn more with your existing content.">
+    <meta name="description" content="Yolu gives you the opportunity to earn more with your existing content. We operate one of the biggest owned-channel networks, and we can license videos from your library for use all across our rapidly-growing network.">
     <title>Yolu</title>
-
-    <!-- Favicon -->
     <link rel="shortcut icon" href="https://static.tildacdn.one/tild3235-3438-4862-b331-623936303166/Frame_51.png" type="image/x-icon">
-
-    <!-- Google Fonts – Futura PT (как в оригинале) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Futura+PT:wght@400;500;600&display=swap" rel="stylesheet">
-
     <style>
-        :root {
-            --pink: #ff00a9;
-            --dark: #2e272b;
-            --bg-blur: rgba(72,72,72,0.05);
-        }
+        :root { --pink: #ff00a9; --dark: #2e272b; --bg-blur: rgba(72,72,72,0.05); --black: #000; }
         * { margin:0; padding:0; box-sizing:border-box; }
-        body { font-family: 'Futura PT', Arial, sans-serif; color: var(--dark); background:#000; overflow-x:hidden; }
-        a { text-decoration:none; color:inherit; }
+        body { font-family: 'Futura PT', Arial, sans-serif; color: #fff; background: var(--black); line-height: 1.6; overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
+        section { padding: 80px 40px; text-align: center; }
+        h2 { font-size: 36px; margin-bottom: 40px; font-weight: 600; }
+        .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
 
         /* Header */
-        header {
-            position:fixed; top:0; left:0; width:100%; height:50px;
-            background:var(--bg-blur); backdrop-filter:blur(11px);
-            display:flex; align-items:center; justify-content:space-between;
-            padding:0 40px; z-index:9999; transition:all .3s;
-        }
-        .logo {
-            display:flex; align-items:center; gap:12px; height:36px; background:rgba(255,255,255,0.6);
-            border-radius:30px; padding:0 20px; font-weight:500; font-size:14px;
-        }
-        .logo img { height:24px; }
-        nav { display:flex; gap:36px; }
-        nav a { font-size:13px; font-weight:400; }
-        .cta {
-            background:#fff; padding:8px 24px; border-radius:30px; font-weight:600; font-size:13px;
-            transition:all .2s;
-        }
-        .cta:hover { background:var(--pink); color:#fff; }
+        header { position: fixed; top: 0; left: 0; width: 100%; height: 50px; background: var(--bg-blur); backdrop-filter: blur(11px); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; z-index: 9999; }
+        .logo { display: flex; align-items: center; gap: 12px; height: 36px; background: rgba(255,255,255,0.6); border-radius: 30px; padding: 0 20px; font-weight: 500; font-size: 14px; }
+        .logo img { height: 24px; }
+        nav { display: flex; gap: 36px; }
+        nav a { font-size: 13px; font-weight: 400; transition: color 0.2s; }
+        nav a:hover { color: var(--pink); }
+        .cta { background: #fff; padding: 8px 24px; border-radius: 30px; font-weight: 600; font-size: 13px; transition: all 0.2s; }
+        .cta:hover { background: var(--pink); color: #fff; }
 
-        /* Mobile menu button */
-        .menu-btn { display:none; cursor:pointer; }
-        .menu-btn span { display:block; width:24px; height:2px; background:#fff; margin:5px 0; transition:.3s; }
+        /* Mobile */
+        .menu-btn { display: none; flex-direction: column; cursor: pointer; }
+        .menu-btn span { width: 24px; height: 2px; background: #fff; margin: 3px 0; transition: 0.3s; }
+        .mobile-nav { display: none; position: absolute; top: 50px; left: 0; width: 100%; background: var(--bg-blur); flex-direction: column; gap: 20px; padding: 20px; }
+        .mobile-nav.active { display: flex; }
 
         /* Hero */
-        .hero {
-            height:100vh; min-height:600px; background:url('https://static.tildacdn.one/tild3232-6135-4962-a134-613035333930/_2.svg') center/cover no-repeat;
-            display:flex; align-items:center; justify-content:center; text-align:center; color:#fff; position:relative;
-        }
-        .hero::before {
-            content:''; position:absolute; inset:0; background:rgba(0,0,0,0.4);
-        }
-        .hero-content {
-            position:relative; z-index:2; max-width:900px; padding:20px;
-        }
-        .hero h1 { font-size:48px; font-weight:600; margin-bottom:24px; }
-        .hero p { font-size:20px; margin-bottom:40px; opacity:0.9; }
-        .btn-hero {
-            background:var(--pink); color:#fff; padding:14px 40px; border-radius:30px; font-size:16px; font-weight:600;
-            display:inline-block; transition:.3s;
-        }
-        .btn-hero:hover { background:#e00090; transform:scale(1.05); }
+        .hero { height: 100vh; min-height: 600px; background: linear-gradient(135deg, #000 0%, #1a1a1a 100%), url('https://static.tildacdn.one/tild3232-6135-4962-a134-613035333930/_2.svg') center/cover; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; }
+        .hero::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.4); }
+        .hero-content { position: relative; z-index: 2; max-width: 900px; padding: 20px; }
+        .hero h1 { font-size: 48px; font-weight: 600; margin-bottom: 24px; }
+        .hero p { font-size: 20px; margin-bottom: 40px; opacity: 0.9; }
+        .btn-hero { background: var(--pink); color: #fff; padding: 14px 40px; border-radius: 30px; font-size: 16px; font-weight: 600; display: inline-block; transition: all 0.3s; }
+        .btn-hero:hover { background: #e00090; transform: scale(1.05); }
 
-        /* Sections */
-        section { padding:100px 40px; text-align:center; color:#fff; }
-        .services, .cases { background:#111; }
-        h2 { font-size:36px; margin-bottom:60px; }
+        /* Stats */
+        .stats { display: flex; justify-content: space-around; max-width: 800px; margin: 0 auto; gap: 40px; }
+        .stat { flex: 1; }
+        .stat-num { font-size: 48px; font-weight: 600; color: var(--pink); }
+        .stat-label { font-size: 14px; opacity: 0.8; }
+
+        /* Services */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; }
+        .service { background: #111; padding: 40px 20px; border-radius: 16px; }
+
+        /* FAQ */
+        .faq { max-width: 800px; margin: 0 auto; text-align: left; }
+        .faq-item { margin-bottom: 30px; }
+        .faq-question { font-weight: 600; cursor: pointer; padding: 20px; background: #111; border-radius: 8px; transition: background 0.3s; }
+        .faq-question:hover { background: #222; }
+        .faq-answer { display: none; padding: 20px; background: #111; border-radius: 0 0 8px 8px; }
 
         /* Footer */
-        footer {
-            background:#000; color:#888; padding:80px 40px 40px; text-align:center; font-size:14px;
-        }
-        .footer-links { margin:30px 0; display:flex; flex-wrap:wrap; gap:20px; justify-content:center; }
-        .social { margin:40px 0; display:flex; gap:20px; justify-content:center; }
-        .social a img { width:40px; filter:grayscale(100%); transition:.3s; }
-        .social a:hover img { filter:none; transform:scale(1.15); }
+        footer { background: #111; padding: 60px 40px 40px; text-align: center; font-size: 14px; opacity: 0.7; }
+        .footer-links { display: flex; gap: 20px; justify-content: center; margin-bottom: 40px; flex-wrap: wrap; }
+        .social { display: flex; gap: 20px; justify-content: center; margin: 20px 0; }
+        .social a img { width: 40px; filter: grayscale(100%); transition: all 0.3s; }
+        .social a:hover img { filter: none; transform: scale(1.15); }
 
         /* Popup */
-        .popup {
-            display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:99999;
-            align-items:center; justify-content:center; padding:20px;
-        }
-        .popup-content {
-            background:#fff; padding:40px; border-radius:16px; max-width:500px; width:100%; position:relative;
-            text-align:center; color:var(--dark);
-        }
-        .close { position:absolute; top:15px; right:20px; font-size:28px; cursor:pointer; color:#aaa; }
-        .close:hover { color:#000; }
+        .popup { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 99999; align-items: center; justify-content: center; padding: 20px; }
+        .popup-content { background: #fff; padding: 40px; border-radius: 16px; max-width: 500px; width: 100%; position: relative; text-align: center; color: var(--dark); max-height: 90vh; overflow-y: auto; }
+        .close { position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: #aaa; }
+        .close:hover { color: var(--dark); }
+        form input, form textarea { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #ddd; }
+        form button { background: var(--pink); color: #fff; padding: 12px 30px; border: none; border-radius: 30px; cursor: pointer; }
 
         /* Responsive */
-        @media (max-width:960px) {
-            header { padding:0 20px; }
-            nav { display:none; }
-            .menu-btn { display:block; }
-            .hero h1 { font-size:36px; }
-            .hero p { font-size:18px; }
-        }
-        @media (max-width:480px) {
-            header { height:60px; padding:0px; }
-            .logo { padding:0 15px; font-size:13px; }
-            .hero h1 { font-size:28px; }
-            section { padding:80px 20px; }
-        }
+        @media (max-width: 960px) { header { padding: 0 20px; } nav { display: none; } .menu-btn { display: flex; } .stats { flex-direction: column; gap: 20px; } .hero h1 { font-size: 32px; } .hero p { font-size: 18px; } section { padding: 60px 20px; } }
+        @media (max-width: 480px) { header { height: 60px; padding: 0 10px; } .logo { padding: 0 15px; font-size: 13px; } .hero h1 { font-size: 24px; } .services-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -123,96 +93,128 @@
             <a href="#contact">Contact</a>
         </nav>
         <a href="#popup:form" class="cta">Submit your application</a>
-        <div class="menu-btn"><span></span><span></span><span></span></div>
+        <div class="menu-btn" onclick="toggleMobileMenu()"><span></span><span></span><span></span></div>
+        <nav class="mobile-nav" id="mobileNav">
+            <a href="#services">Our services</a>
+            <a href="#cases">Cases</a>
+            <a href="#contact">Contact</a>
+            <a href="#popup:form">Submit your application</a>
+        </nav>
     </header>
 
     <!-- Hero -->
-    <section class="hero">
+    <section class="hero fade-in">
         <div class="hero-content">
-            <h1>Earn more with your content</h1>
-            <p>Yolu gives you the opportunity to earn more with your existing content.<br>We operate one of the biggest owned-channel networks.</p>
+            <h1>Yolu gives you the opportunity to earn more with your existing content. We operate one of the biggest owned-channel networks, and we can license videos from your library for use all across our rapidly-growing network.</h1>
+            <p>Yolu gives you the opportunity to earn more with your existing content. We operate one of the biggest owned-channel networks, and we can license videos from your library for use all across our rapidly-growing network.</p>
             <a href="#popup:form" class="btn-hero">Submit your application</a>
         </div>
     </section>
 
-    <!-- Services placeholder -->
-    <section id="services" class="services">
+    <!-- Intro Section -->
+    <section class="fade-in">
+        <p>and we know how to work with professional content in different languages. Our individual approach to each video library helps all our clients maximize their results.</p>
+        <div class="stats">
+            <div class="stat"><div class="stat-num">10</div><div class="stat-label">years we have been in the market</div></div>
+            <div class="stat"><div class="stat-num">4B</div><div class="stat-label">views per year</div></div>
+            <div class="stat"><div class="stat-num">500+</div><div class="stat-label">channels we run</div></div>
+            <div class="stat"><div class="stat-num">500+</div><div class="stat-label">with different types of content, genres, and audiences, which allows us to monetize your content right from the start.</div></div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section class="fade-in" style="background: #111;">
+        <h2>Yolu.tv is an international MCN that maximizes YouTube monetization through tailored strategies, full in-house operations, and strong content protection against piracy.</h2>
+        <p>Our team helps media companies all over the world start and manage channels on YouTube, post content there, promote and increase their earnings.</p>
+    </section>
+
+    <!-- Strategy -->
+    <section class="fade-in">
+        <h2>We deliver data-driven strategies on a daily basis, tailoring an individual growth plan for every partner and every title.</h2>
+        <p>No templates, no “one-size-fits-all” approach — each piece of content is evaluated for its unique potential, ensuring we maximize performance and revenue.</p>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="fade-in">
         <h2>Our services</h2>
-        <p>Здесь будут ваши услуги — добавите текст и картинки сами за 5 минут</p>
+        <div class="services-grid">
+            <div class="service">
+                <h3>Content Licensing and Monetization</h3>
+                <p>Learn more about YouTube monetization</p>
+                <a href="#services" class="btn-hero" style="font-size: 14px; padding: 10px 20px;">Learn more</a>
+            </div>
+            <div class="service">
+                <h3>Channel Management</h3>
+                <p>Learn more</p>
+                <a href="#services" class="btn-hero" style="font-size: 14px; padding: 10px 20px;">Learn more</a>
+            </div>
+            <div class="service">
+                <h3>Anti-Piracy</h3>
+                <p>Learn more</p>
+                <a href="#services" class="btn-hero" style="font-size: 14px; padding: 10px 20px;">Learn more</a>
+            </div>
+            <div class="service">
+                <h3>Dubbing / Localization</h3>
+                <p>Learn more</p>
+                <a href="#services" class="btn-hero" style="font-size: 14px; padding: 10px 20px;">Learn more</a>
+            </div>
+        </div>
     </section>
 
-    <!-- Cases placeholder -->
-    <section id="cases" class="cases">
-        <h2>Cases</h2>
-        <p>Кейсы и результаты — добавляйте сколько угодно</p>
+    <!-- Benefits -->
+    <section id="cases" class="fade-in" style="background: #111;">
+        <h2>What are the benefits of working with us?</h2>
+        <ul style="max-width: 800px; margin: 0 auto; text-align: left; list-style: none;">
+            <li style="margin-bottom: 20px;">We provide a full-cycle YouTube management service — from launching and optimizing channels to anti-piracy protection, dubbing, and in-depth analytics.</li>
+            <li style="margin-bottom: 20px;">Our partners don’t need to grow their internal teams — our experts take care of everything.</li>
+            <li style="margin-bottom: 20px;">By strategically re-publishing each piece of content 3–4 times a year across multiple channels, we maximize reach, boost views, and unlock higher revenue potential.</li>
+        </ul>
     </section>
 
-    <!-- Footer -->
-    <footer id="contact">
-        <div class="footer-links">
-            <a href="/">Yolu</a> ·
-            <a href="#services">Our services</a> ·
-            <a href="#cases">Cases</a> ·
-            <a href="#popup:form">Contact</a>
-        </div>
-        <div class="social">
-            <a href="https://www.instagram.com/yolu.tv/" target="_blank">
-                <img src="https://static.tildacdn.one/tild6437-3736-4438-b331-346439616439/photo.svg" alt="Instagram">
-            </a>
-            <a href="https://www.linkedin.com/company/yolu-mcn/about/" target="_blank">
-                <img src="https://static.tildacdn.one/tild6261-6666-4536-b639-613361633162/Group_73.svg" alt="LinkedIn">
-            </a>
-            <a href="https://www.facebook.com/profile.php?id=61556386874958" target="_blank">
-                <img src="https://static.tildacdn.one/tild6166-3562-4730-b764-666132323237/Group_50.svg" alt="Facebook">
-            </a>
-        </div>
-        <p>© All rights reserved.</p>
-        <p><a href="#popup:privacy" style="color:#888; text-decoration:underline;">Privacy Policy</a></p>
-    </footer>
+    <!-- Analytics -->
+    <section class="fade-in">
+        <h2>Analytics & Reports</h2>
+        <p>Partners receive clear, transparent monthly reports that break down revenue from:</p>
+        <ul style="max-width: 600px; margin: 0 auto; text-align: left;">
+            <li>Advertising</li>
+            <li>Subscriptions</li>
+            <li>Shorts</li>
+            <li>Content claims</li>
+        </ul>
+    </section>
 
-    <!-- Popup Form -->
-    <div class="popup" id="popup:form">
-        <div class="popup-content">
-            <span class="close">×</span>
-            <h3>Submit your application</h3>
-            <p>We will contact you within 24 hours</p>
-            <form action="https://formspree.io/f/your-email-here" method="POST">
-                <input type="text" name="name" placeholder="Your name" required style="width:100%; padding:12px; margin:10px 0; border-radius:8px; border:1px solid #ddd;">
-                <input type="email" name="_replyto" placeholder="Email" required style="width:100%; padding:12px; margin:10px 0; border-radius:8px; border:1px solid #ddd;">
-                <textarea name="message" placeholder="Tell us about your channel" rows="5" required style="width:100%; padding:12px; margin:10px 0; border-radius:8px; border:1px solid #ddd;"></textarea>
-                <button type="submit" style="background:var(--pink); color:#fff; padding:12px 30px; border:none; border-radius:30px; cursor:pointer;">Send</button>
-            </form>
-        </div>
-    </div>
+    <!-- Anti-Piracy -->
+    <section class="fade-in" style="background: #111;">
+        <h2>Anti-Piracy with Metrics</h2>
+        <p>We protect your content — and your revenue.</p>
+        <ul style="max-width: 600px; margin: 0 auto; text-align: left;">
+            <li>Daily monitoring across all major platforms</li>
+            <li>Average takedown time: just 24 hours</li>
+            <li>Full control over unauthorized copies to maximize your monetization potential</li>
+        </ul>
+    </section>
 
-    <!-- Privacy Policy Popup -->
-    <div class="popup" id="popup:privacy">
-        <div class="popup-content" style="max-width:800px; max-height:90vh; overflow-y:auto;">
-            <span class="close">×</span>
-            <iframe src="https://drive.google.com/file/d/1KGlfPfzqklUWfjLuOUhiLYu-ociOCeDj/preview" width="100%" height="600" style="border:none;"></iframe>
-        </div>
-    </div>
-
-    <script>
-        // Popup logic
-        document.querySelectorAll('a[href^="#popup:"]').forEach(link => {
-            link.onclick = e => {
-                e.preventDefault();
-                const id = link.getAttribute('href');
-                document.querySelector(id).style.display = 'flex';
-            };
-        });
-        document.querySelectorAll('.close').forEach(btn => {
-            btn.onclick = () => btn.closest('.popup').style.display = 'none';
-        });
-        window.onclick = e => {
-            if (e.target.classList.contains('popup')) e.target.style.display = 'none';
-        };
-
-        // Simple mobile menu (по желанию можно расширить)
-        document.querySelector('.menu-btn')?.addEventListener('click', () => {
-            alert('Мобильное меню можно добавить за 5 минут — скажи, если нужно');
-        });
-    </script>
-</body>
-</html>
+    <!-- FAQ -->
+    <section class="faq-section fade-in">
+        <h2>What types of content do you work with?</h2>
+        <p>We answered this and other frequently asked questions</p>
+        <div class="faq">
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">What types of content do you work with?</div>
+                <div class="faq-answer">We work with professional content in different languages. [Add your answer]</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">What if I only have rights to post content in certain territories/countries?</div>
+                <div class="faq-answer">Our individual approach helps maximize results in your territories. [Add details]</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">I’m interested, but I don’t have time to figure it all out</div>
+                <div class="faq-answer">We handle everything — full-cycle service. [Add details]</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">How do you make money?</div>
+                <div class="faq-answer">Through revenue share from monetization. [Add details]</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">How much rights are needed for monetization?</div>
+                <div class="faq-answer">Exclusive rights preferred, but we work with territorial. [Add details]</div>
