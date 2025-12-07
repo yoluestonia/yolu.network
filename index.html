@@ -270,7 +270,7 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            margin-bottom: 60px;
+            margin-bottom: 20px; /* Уменьшено для добавления новой строки */
         }
         
         .hero-cta-note {
@@ -284,6 +284,12 @@
             cursor: pointer;
         }
         
+        .hero-metric-experience { /* НОВЫЙ СТИЛЬ ДЛЯ ЗАГОЛОВКА ОПЫТА */
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
         .hero-metrics {
             display: flex;
             gap: 60px;
@@ -328,45 +334,7 @@
             white-space: nowrap;
         }
         
-        /* --- Stats Section --- */
-        .stats-section {
-            padding-bottom: 100px;
-        }
-        
-        .stats-section .section-title {
-            max-width: 550px;
-        }
-        
-        .stats-section .section-text {
-            max-width: 700px;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
-        }
-        
-        .stat-card {
-            background-color: #1a1a1a;
-            padding: 30px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .stat-value {
-            font-size: 48px;
-            font-weight: 600;
-            color: #00c73e;
-            line-height: 1.2;
-            margin-bottom: 10px;
-        }
-        
-        .stat-label {
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.8);
-        }
+        /* Секция Stats (удалена в HTML) */
         
         /* --- Services Section --- */
         .services-header {
@@ -903,6 +871,9 @@
                         <button type="button" class="btn-primary js-open-popup" data-popup-target="popup-form">Submit your application →</button>
                         <div class="hero-cta-note">By clicking the button, you agree to our <span>Privacy Policy</span>.</div>
                     </div>
+                    
+                    <p class="hero-metric-experience">Our team's experience:</p>
+
                     <div class="hero-metrics">
                         <div class="hero-metric">
                             <div class="hero-metric-value">5+</div>
@@ -925,39 +896,7 @@
                     <div class="hero-visual-tag">Owned-channel network & analytics</div>
                 </aside>
             </section>
-            <section class="section stats-section fade-in" aria-label="Yolu in numbers">
-                <div>
-                    <div class="section-label">Yolu in numbers</div>
-                    <h2 class="section-title">Global audience and scalable infrastructure</h2>
-                    <p class="section-text">We operate our own network of channels and distribute content across multiple platforms and regions, so partners can enter new markets without building a team from scratch.</p>
-                </div>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-value">10</div>
-                        <div class="stat-label">media partners</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">3</div>
-                        <div class="stat-label">Gold YouTube buttons</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">14</div>
-                        <div class="stat-label">Silver YouTube buttons</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">1.1B</div>
-                        <div class="stat-label">views in 2023</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">660M</div>
-                        <div class="stat-label">hours of watch time</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">4M</div>
-                        <div class="stat-label">unique viewers in 50+ countries</div>
-                    </div>
-                </div>
-            </section>
+            
             <section class="section fade-in" id="services">
                 <div class="services-header">
                     <div>
@@ -1022,24 +961,18 @@
                 <p class="section-text">Yolu builds long–term partnerships with film and production studios across Europe to help their projects reach digital audiences and unlock additional revenue from back catalog.</p>
                 <div class="partners-grid">
                     <div class="partner-card">
-                        <div class="partner-name">Cuba Films &amp; Estonian Production Service</div>
+                        <div class="partner-name">Kapow</div>
                     </div>
                     <div class="partner-card">
-                        <div class="partner-name">Vitamin K</div>
+                        <div class="partner-name">GreatMovies</div>
                     </div>
                     <div class="partner-card">
-                        <div class="partner-name">Nafta Films</div>
+                        <div class="partner-name">SIA Kotelnikoff</div>
                     </div>
                     <div class="partner-card">
-                        <div class="partner-name">Film Tower</div>
+                        <div class="partner-name">SIA DAMN GOOD</div>
                     </div>
-                    <div class="partner-card">
-                        <div class="partner-name">ACP Productions</div>
                     </div>
-                    <div class="partner-card">
-                        <div class="partner-name">Obliquo / Stellar Film</div>
-                    </div>
-                </div>
             </section>
             <section class="faq-section fade-in" id="faq">
                 <div>
